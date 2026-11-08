@@ -1,27 +1,33 @@
 [submodule "algosi"]
 	path = algosi
-	url = https://github.com/Sanchell1o/Algosi.git
+	url = https://github.com/Gooddru/Algosi.git
 [submodule "algosi_first"]
 	path = algosi_first
-	url = https://github.com/Sanchell1o/Algosi_first.git
+	url = https://github.com/Gooddru/Algosi_first.git
 [submodule "linal"]
 	path = linal
-	url = https://github.com/Sanchell1o/linal.git
-[submodule "matam"]
-	path = matam
-	url = https://github.com/Sanchell1o/matan.git
+	url = https://github.com/Gooddru/linal.git
 [submodule "python"]
 	path = python
-	url = https://github.com/Sanchell1o/python.git
+	url = https://github.com/Gooddru/python.git
 [submodule "python_first"]
 	path = python_first
-	url = https://github.com/Sanchell1o/python_first.git
+	url = https://github.com/Gooddru/python_first.git
 [submodule "Numerical_Methods"]
 	path = Numerical_Methods
-	url = https://github.com/Sanchell1o/Numerical-methods-of-analysis.git
+	url = https://github.com/Gooddru/Numerical-methods-of-analysis.git
 [submodule "Statistics-and-Data-Analysis"]
 	path = Statistics-and-Data-Analysis
-	url = https://github.com/Sanchell1o/Statistics-and-Data-Analysis.git
+	url = https://github.com/Gooddru/Statistics-and-Data-Analysis.git
 [submodule "matan"]
 	path = matan
-	url = https://github.com/Sanchell1o/matan
+	url = https://github.com/Gooddru/matan.git
+[submodule "History-of-Russia-in-relations"]
+	path = History-of-Russia-in-relations
+	url = https://github.com/Gooddru/History-of-Russia-in-relations.git
+[submodule "OBD"]
+	path = OBD
+	url = https://github.com/Gooddru/OBD.git
+[submodule "Network-Tech"]
+	path = Network-Tech
+	url = https://github.com/Gooddru/Network-Tech.git

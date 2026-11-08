@@ -1,33 +1,22 @@
-# 📊 Лабораторные работы  по всем предметам
-**Университет ИТМО, ИИИ**  
+# Лабораторные работы
 
-Репозиторий содержит материалы, код и отчёты по лабораторным работам курса. Каждая папка соответствует отдельному предмету и включает:  
-- Исходный код вместе с отчетом (Python + Jupyter Notebook/Google Colab) или C++.
-- Исходные данные и условия заданий  
+**Университет ИТМО, ИИИ**
 
----
-## 🧪 Список Предметов  
+Репозиторий объединяет материалы, исходный код, отчёты, условия заданий и
+исходные данные по учебным дисциплинам.
 
-### 📐 [Математический анализ и основы вычислений](https://github.com/Sanchell1o/matan/tree/c8465100b1f46bc1007b7f68e2f25e090bea529a)🔗  
-Лабораторные работы по  математическому анализу(1-ый и 2-ой семместры)  
+## Дисциплины
 
-### ➗ [Линейная алгебра и обработка данных](https://github.com/Sanchell1o/linal/tree/82a2156994d961d9a924b1396807ef9cde952ccf)🔗  
-Лабораторные работы по линейной алгебре(1-ый и 2-ой семместры)  
+- [Математический анализ и основы вычислений](https://github.com/Gooddru/matan)
+- [Линейная алгебра и обработка данных](https://github.com/Gooddru/linal)
+- [Алгоритмы и структуры данных, 1-й семестр](https://github.com/Gooddru/Algosi_first)
+- [Алгоритмы и структуры данных, 2-й семестр](https://github.com/Gooddru/Algosi)
+- [Программирование и обработка данных на Python, 1-й семестр](https://github.com/Gooddru/python_first)
+- [Программирование и обработка данных на Python, 2-й семестр](https://github.com/Gooddru/python)
+- [Статистика и анализ данных](https://github.com/Gooddru/Statistics-and-Data-Analysis)
+- [Численные методы анализа](https://github.com/Gooddru/Numerical-methods-of-analysis)
+- [История России в отношениях](https://github.com/Gooddru/History-of-Russia-in-relations)
+- [Основы баз данных (OBD)](https://github.com/Gooddru/OBD)
+- [Сетевые технологии](https://github.com/Gooddru/Network-Tech)
 
-### ⚙️ [Алгоритмы и структуры данных(1-ый семместр)](https://github.com/Sanchell1o/Algosi_first/tree/f95b9c1ef017cf81b74ab35923405ab3f6435560)🔗 
-Лабораторные работы по алгоритмам и структурам данных на C++/Python(1-ый семместр)  
 
-### ⚙️ [Алгоритмы и структуры данных(2-ой семместр)](https://github.com/Sanchell1o/Algosi/tree/dbf1ff04166ba305d73c6c7022f50ffb28fb8b87)🔗  
-Лабораторные работы по алгоритмам и структурам данных на C++/Python(2-ой семместр) 
-
-### 🐍 [Программирование и обработка данных на Python(1-ый семместр)](https://github.com/Sanchell1o/python_first/tree/0bc4b3ff3dbd50ef9261e3851dbd6645feaee12e)🔗  
-Лабораторные по Python(1-ый семместр)  
-
-### 🐍 [Программирование и обработка данных на Python(2-ой семместр](https://github.com/Sanchell1o/python/tree/30098944b1d59ebc52e92ce70fc318ba15af471b)🔗
-Лабораторные по Python(2-ой семместр)
-
-### 📊[Статистика и анализ данных](https://github.com/Sanchell1o/Statistics-and-Data-Analysis/tree/465002cb8946751264582e7d481c564deaf4365c)🔗
-Лабораторные по Cтатистике и анализу данных(2-ой семместр)
-
-### 💻[Численные методы анализа](https://github.com/Sanchell1o/Numerical-methods-of-analysis/tree/b1b69c63f425f4abfc5baefd7eaddb1a6e23cc78)🔗
-Лабораторные по Численным методам анализа(2-ой семместр)
