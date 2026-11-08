@@ -15,7 +15,7 @@
 - [Программирование и обработка данных на Python, 2-й семестр](https://github.com/Gooddru/python)
 - [Статистика и анализ данных](https://github.com/Gooddru/Statistics-and-Data-Analysis)
 - [Численные методы анализа](https://github.com/Gooddru/Numerical-methods-of-analysis)
-- [История России в отношениях](https://github.com/Gooddru/History-of-Russia-in-relations)
+- [Россия в истории современных международных отношений](https://github.com/Gooddru/History-of-Russia-in-relations)
 - [Основы баз данных (OBD)](https://github.com/Gooddru/OBD)
 - [Сетевые технологии](https://github.com/Gooddru/Network-Tech)
 
