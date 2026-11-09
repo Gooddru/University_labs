@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<title>Электронная доска: Романовы в XVIII веке</title>
+<style>
+    body, html {
+        margin: 0; padding: 0;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        background-color: #F7F5F0;
+        color: #2C2A28;
+        width: 100vw; height: 100vh;
+        overflow: auto;
+    }
+
+    .back-btn {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 100;
+        background: #FFFFFF;
+        color: #2C2A28;
+        text-decoration: none;
+        padding: 10px 18px;
+        border-radius: 12px;
+        border: 2px solid #C4A46B;
+        font-family: 'Georgia', serif;
+        font-size: 14px;
+        font-weight: bold;
+        box-shadow: 0 8px 20px rgba(139, 121, 94, 0.2);
+        transition: all 0.2s ease;
+    }
+    .back-btn:hover {
+        background: #FDF9E8;
+        color: #8C6D31;
+        transform: translateY(-2px);
+    }
+    
+    .board-container {
+        position: relative;
+        width: 2600px;
+        height: 1600px;
+        background-color: #F7F5F0;
+        background-image: radial-gradient(#D6D1C4 2px, transparent 2px);
+        background-size: 30px 30px;
+        padding: 40px;
+        box-sizing: border-box;
+    }
+
+    .title-card {
+        position: absolute;
+        top: 75px; left: 100px;
+        background: #FFFFFF;
+        padding: 35px 45px;
+        border-radius: 16px;
+        border-top: 6px solid #C4A46B;
+        box-shadow: 0 15px 35px rgba(139, 121, 94, 0.15);
+        width: 450px;
+        text-align: center;
+        z-index: 20;
+    }
+    .title-card h1 { 
+        margin: 0 0 10px 0; 
+        font-size: 28px; 
+        font-family: 'Georgia', serif; 
+        font-weight: normal; 
+        text-transform: uppercase; 
+        letter-spacing: 1px;
+        color: #1A1A1A; 
+    }
+    .title-card p { margin: 0; color: #736B5E; font-size: 16px; font-style: italic; font-family: 'Georgia', serif; }
+
+    .sticky-note {
+        position: absolute;
+        top: 1100px; left: 1200px;
+        background: #FDF9E8;
+        padding: 40px;
+        border-radius: 12px;
+        border: 1px solid #EBE3C5;
+        box-shadow: 5px 15px 40px rgba(181, 155, 101, 0.2);
+        width: 800px;
+        z-index: 20;
+        transform: rotate(-1deg);
+    }
+    .sticky-note h3 { 
+        margin: 0 0 20px 0; 
+        font-size: 22px; 
+        font-family: 'Georgia', serif; 
+        color: #8C6D31; 
+        border-bottom: 1px solid #DFCC9C; 
+        padding-bottom: 15px; 
+        text-align: center;
+    }
+    .sticky-note p { font-size: 15px; line-height: 1.6; color: #5C4B33; margin: 0 0 15px 0; }
+    .sticky-note b { font-weight: bold; color: #3D3121; }
+
+    svg {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .card {
+        position: absolute;
+        width: 400px;
+        background: #FFFFFF;
+        border-radius: 16px;
+        box-shadow: 0 20px 40px rgba(139, 121, 94, 0.12);
+        display: flex;
+        flex-direction: column;
+        z-index: 10;
+        border: 1px solid #EFECE5;
+        padding: 0 30px 30px 30px;
+        box-sizing: border-box;
+        transition: transform 0.3s ease;
+    }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 25px 50px rgba(139, 121, 94, 0.2); }
+
+    .portrait-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-top: -55px;
+        margin-bottom: 15px;
+    }
+    
+    .portrait-box {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        background-color: #F0EBE1;
+        border: 5px solid #C4A46B;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        background-size: cover;
+        background-position: center top;
+    }
+
+    .card-header { text-align: center; margin-bottom: 20px; }
+    .card-header h2 { 
+        margin: 0 0 5px 0; 
+        font-size: 22px; 
+        font-family: 'Georgia', serif; 
+        color: #2C2A28; 
+    }
+    .card-header .badge {
+        display: inline-block;
+        background: #F7F5F0;
+        color: #8C6D31;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border: 1px solid #EBE3C5;
+        margin-bottom: 5px;
+    }
+    .card-header .dates { font-size: 14px; color: #736B5E; font-style: italic; }
+
+    .card-body {
+        flex: 1;
+        border-top: 1px solid #EFECE5;
+        padding-top: 20px;
+    }
+    .card-body h3 { 
+        font-size: 13px; 
+        color: #A39681; 
+        text-transform: uppercase; 
+        margin: 0 0 15px 0; 
+        letter-spacing: 1px; 
+        text-align: center;
+    }
+    .card-body ul { 
+        margin: 0; 
+        padding-left: 20px; 
+        font-size: 14px; 
+        line-height: 1.6; 
+        color: #4A4640; 
+        list-style-type: square;
+    }
+    .card-body li { margin-bottom: 12px; }
+    .card-body li::marker { color: #C4A46B; }
+</style>
+</head>
+<body>
+
+<a href="../index.html" class="back-btn">← Назад к сайту</a>
+
+<div class="board-container">
+    
+    <div class="title-card">
+        <h1>Династия Романовых</h1>
+        <p>Генеалогия и внешняя политика (XVIII век)</p>
+    </div>
+
+    <div class="sticky-note">
+        <h3>Устав о наследовании престола (1722 г.)</h3>
+        <p><b>1. Что изменил Петр I этим документом?</b><br>Правящий монарх получил абсолютное право лично назначать себе наследника по своему усмотрению и отменять это назначение («дабы сие было всегда в воле правительствующего государя»). Был отменен старый обычай обязательной передачи власти по старшинству.</p>
+        <p><b>2. Какие аргументы он приводит?</b><br>• Библейский пример: жена Исаака исходатайствовала наследство младшему сыну.<br>• Исторический пример Ивана III: сначала назначил наследником внука Дмитрия, а затем отменил решение в пользу сына Василия.<br>• Собственный указ о единонаследии 1714 года, разрешивший передавать недвижимость любому сыну по выбору родителя.</p>
+        <p><b>3. Почему появляется необходимость изменения правил?</b><br>Из-за измены старшего сына Алексея («какою авессаломскою злостию надмен был сын наш Алексей»). Петр считал, что старый обычай давал старшим сыновьям чувство безнаказанности. Новый указ должен был стать «уздой» для потомков, чтобы они не расточили государство.</p>
+    </div>
+
+    <svg>
+        <defs>
+            <marker id="gold-arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#C4A46B" />
+            </marker>
+        </defs>
+        
+        <path d="M 500 550 C 550 550, 550 250, 600 250" stroke="#C4A46B" stroke-width="3" fill="none" marker-end="url(#gold-arrow)"/>
+        <path d="M 500 550 C 550 550, 550 850, 600 850" stroke="#C4A46B" stroke-width="3" fill="none" marker-end="url(#gold-arrow)"/>
+        <path d="M 500 550 L 1100 550" stroke="#C4A46B" stroke-width="3" fill="none" marker-end="url(#gold-arrow)"/>
+        <path d="M 500 1200 L 600 1200" stroke="#C4A46B" stroke-width="3" fill="none" marker-end="url(#gold-arrow)"/>
+        <path d="M 1500 550 C 1550 550, 1550 850, 1600 850" stroke="#C4A46B" stroke-width="3" fill="none" marker-end="url(#gold-arrow)"/>
+        <path d="M 2000 250 C 2050 250, 2050 550, 2100 550" stroke="#C4A46B" stroke-width="3" fill="none" marker-end="url(#gold-arrow)"/>
+        <path d="M 2000 850 C 2050 850, 2050 550, 2100 550" stroke="#C4A46B" stroke-width="3" fill="none" marker-end="url(#gold-arrow)"/>
+        <path d="M 2000 850 C 2080 850, 2080 250, 2000 250" stroke="#C4A46B" stroke-width="2" stroke-dasharray="6 6" fill="none" />
+    </svg>
+
+    <div class="card" style="left: 100px; top: 350px;">
+        <div class="portrait-wrapper"><div class="portrait-box" style="background-image: url('../assets/images/romanov-dynasty/petr-i.jpg');"></div></div>
+        <div class="card-header">
+            <div class="badge">Основатель империи</div>
+            <h2>Пётр I Великий</h2>
+            <div class="dates">1682 — 1725</div>
+        </div>
+        <div class="card-body">
+            <h3>Внешняя политика</h3>
+            <ul>
+                <li>Азовские походы и создание флота.</li>
+                <li>Великое посольство для поиска союзников.</li>
+                <li>Северная война со Швецией: победы при Нарве, Полтаве, мысе Гангут, острове Гренгам.</li>
+                <li>Прутский поход 1711 г.</li>
+                <li>Ништадтский мир 1721 г. (присоединение Карелии, Ингрии, Эстляндии, Лифляндии).</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card" style="left: 100px; top: 1000px;">
+        <div class="portrait-wrapper"><div class="portrait-box" style="background-image: url('../assets/images/romanov-dynasty/anna-ioannovna.jpg');"></div></div>
+        <div class="card-header">
+            <div class="badge">Дочь Ивана V</div>
+            <h2>Анна Иоанновна</h2>
+            <div class="dates">1730 — 1740</div>
+        </div>
+        <div class="card-body">
+            <h3>Внешняя политика</h3>
+            <ul>
+                <li>Утверждение Августа III на престоле Речи Посполитой (осада Данцига Минихом).</li>
+                <li>Русско-турецкая война 1735–1739 гг.: возвращение Азова и части земель Правобережной Украины.</li>
+                <li>Переход под протекторат России Младшего и Среднего казахских жузов.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card" style="left: 600px; top: 50px;">
+        <div class="portrait-wrapper"><div class="portrait-box" style="background-image: url('../assets/images/romanov-dynasty/ekaterina-i.jpg');"></div></div>
+        <div class="card-header">
+            <div class="badge">Вторая жена Петра I</div>
+            <h2>Екатерина I</h2>
+            <div class="dates">1725 — 1727</div>
+        </div>
+        <div class="card-body">
+            <h3>Внешняя политика</h3>
+            <ul>
+                <li>Участвовала в Прутском походе 1711 года.</li>
+                <li>Передала свои бриллианты для взятки турецкому военачальнику, чтобы спасти армию Петра I от окружения.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card" style="left: 600px; top: 650px;">
+        <div class="portrait-wrapper"><div class="portrait-box" style="background-image: url('../assets/images/romanov-dynasty/petr-ii.jpg');"></div></div>
+        <div class="card-header">
+            <div class="badge">Внук Петра I</div>
+            <h2>Пётр II</h2>
+            <div class="dates">1727 — 1730</div>
+        </div>
+        <div class="card-body">
+            <h3>Внешняя политика</h3>
+            <ul><li></li></ul>
+        </div>
+    </div>
+
+    <div class="card" style="left: 600px; top: 1000px;">
+        <div class="portrait-wrapper"><div class="portrait-box" style="background-image: url('../assets/images/romanov-dynasty/ivan-vi.jpg');"></div></div>
+        <div class="card-header">
+            <div class="badge">Правнук Ивана V</div>
+            <h2>Иван VI Антонович</h2>
+            <div class="dates">1740 — 1741</div>
+        </div>
+        <div class="card-body">
+            <h3>Внешняя политика</h3>
+            <ul>
+                <li>Начало русско-шведской войны (1741–1743 гг.), вызванной реваншистскими настроениями Швеции.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card" style="left: 1100px; top: 350px;">
+        <div class="portrait-wrapper"><div class="portrait-box" style="background-image: url('../assets/images/romanov-dynasty/elizaveta-petrovna.jpg');"></div></div>
+        <div class="card-header">
+            <div class="badge">Дочь Петра I</div>
+            <h2>Елизавета Петровна</h2>
+            <div class="dates">1741 — 1761</div>
+        </div>
+        <div class="card-body">
+            <h3>Внешняя политика</h3>
+            <ul>
+                <li>Абоский мир 1743 г. (завершение русско-шведской войны, присоединение территорий в Финляндии).</li>
+                <li>Семилетняя война против Пруссии и короля Фридриха II.</li>
+                <li>Победы при Гросс-Егерсдорфе, Цорндорфе, Кунерсдорфе.</li>
+                <li>Взятие Берлина (1760 г.) и Кольберга (1761 г.).</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card" style="left: 1600px; top: 50px;">
+        <div class="portrait-wrapper"><div class="portrait-box" style="background-image: url('../assets/images/romanov-dynasty/ekaterina-ii.jpg');"></div></div>
+        <div class="card-header">
+            <div class="badge">Жена Петра III</div>
+            <h2>Екатерина II Великая</h2>
+            <div class="dates">1762 — 1796</div>
+        </div>
+        <div class="card-body">
+            <h3>Внешняя политика</h3>
+            <ul>
+                <li>Три раздела Речи Посполитой (1772, 1793, 1795 гг.).</li>
+                <li>Русско-турецкая война 1768–1774 гг. (Ларг, Кагул, Кючук-Кайнарджийский мир).</li>
+                <li>Присоединение Крыма и Георгиевский трактат с Грузией (1783 г.).</li>
+                <li>Русско-турецкая война 1787–1791 гг. (Кинбурн, Рымник, Измаил, Ясский мир).</li>
+                <li>Освоение Аляски Г. Шелиховым (1783 г.).</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card" style="left: 1600px; top: 650px;">
+        <div class="portrait-wrapper"><div class="portrait-box" style="background-image: url('../assets/images/romanov-dynasty/petr-iii.jpg');"></div></div>
+        <div class="card-header">
+            <div class="badge">Внук Петра I</div>
+            <h2>Пётр III</h2>
+            <div class="dates">1761 — 1762</div>
+        </div>
+        <div class="card-body">
+            <h3>Внешняя политика</h3>
+            <ul>
+                <li>«Чудо Бранденбургского дома»: будучи фанатом Фридриха II, заключил союз с Пруссией.</li>
+                <li>Россия потеряла все завоевания Семилетней войны.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card" style="left: 2100px; top: 350px;">
+        <div class="portrait-wrapper"><div class="portrait-box" style="background-image: url('../assets/images/romanov-dynasty/pavel-i.jpg');"></div></div>
+        <div class="card-header">
+            <div class="badge">Сын Екатерины II</div>
+            <h2>Павел I</h2>
+            <div class="dates">1796 — 1801</div>
+        </div>
+        <div class="card-body">
+            <h3>Внешняя политика</h3>
+            <ul>
+                <li>Направил русскую армию в Европу для борьбы с Францией.</li>
+                <li>Итальянский и Швейцарский походы А.В. Суворова (1799 г.).</li>
+                <li>Сменил внешнеполитический курс на антианглийский после захвата Мальты.</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

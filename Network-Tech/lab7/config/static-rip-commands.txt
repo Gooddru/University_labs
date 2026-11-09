@@ -1,0 +1,27 @@
+! Часть 2: статические маршруты. Замените интерфейсы и next-hop на значения
+! из своей схемы. Сети 192.168.0.0/24 выбираются для первой копии модели.
+enable
+configure terminal
+hostname R1-STATIC
+interface gigabitEthernet 0/0
+ ip address 192.168.0.1 255.255.255.252
+ no shutdown
+interface gigabitEthernet 0/1
+ ip address 192.168.0.5 255.255.255.252
+ no shutdown
+ip route 192.168.0.0 255.255.255.0 192.168.0.2
+ip route 192.168.0.64 255.255.255.192 192.168.0.6
+end
+show ip route
+copy running-config startup-config
+
+! Часть 3: RIP2 для копии модели на 192.168.1.0/24.
+configure terminal
+router rip
+ version 2
+ no auto-summary
+ network 192.168.1.0
+ passive-interface gigabitEthernet 0/0
+end
+show ip protocols
+show ip route rip

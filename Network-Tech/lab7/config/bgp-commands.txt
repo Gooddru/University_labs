@@ -1,0 +1,20 @@
+! Часть 5: BGP. Номера AS заданы условием. Адреса соседей замените на адреса
+! межмаршрутизаторных соединений из вашей модели.
+enable
+configure terminal
+hostname AS100-EDGE
+router bgp 100
+ bgp log-neighbor-changes
+ neighbor 10.0.0.2 remote-as 101
+ neighbor 10.0.0.6 remote-as 102
+ network 192.168.0.0 mask 255.255.255.0
+end
+show ip bgp summary
+show ip bgp neighbors
+show ip route bgp
+copy running-config startup-config
+
+! На edge-маршрутизаторах остальных AS используется свой номер:
+! AS 101 -> router bgp 101
+! AS 102 -> router bgp 102
+! AS 103 -> router bgp 103

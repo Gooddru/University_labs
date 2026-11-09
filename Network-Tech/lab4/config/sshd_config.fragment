@@ -1,0 +1,5 @@
+# Добавить в /etc/ssh/sshd_config на c7-2 и затем проверить sshd -t.
+PermitRootLogin no
+MaxAuthTries 2
+LoginGraceTime 30
+UseDNS no

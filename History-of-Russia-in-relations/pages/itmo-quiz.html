@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Квиз: История и учёные Университета ИТМО</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent-blue: #3b82f6;
+    --accent-gold: #f59e0b;
+    --accent-red: #ef4444;
+    --accent-purple: #8b5cf6;
+    --accent-green: #10b981;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+  body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; }
+
+  header {
+    padding: 20px 40px;
+    border-bottom: 1px solid #334155;
+    background: rgba(15, 23, 42, 0.9);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .back-link {
+    text-decoration: none;
+    color: var(--text-main);
+    background: var(--card-bg);
+    border: 1px solid #334155;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.2s;
+  }
+  .back-link:hover {
+    border-color: var(--accent-purple);
+    color: #c4b5fd;
+  }
+
+  .logo { font-size: 20px; font-weight: 800; color: #fff; }
+  .logo span { color: #a78bfa; }
+
+  main {
+    flex: 1;
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 45px 20px 60px;
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+  h1 { font-family: 'Playfair Display', serif; font-size: 36px; margin-bottom: 10px; color: #fff; }
+  p.subtitle { font-size: 15px; color: var(--text-muted); line-height: 1.5; }
+
+  .toolbar {
+    background: var(--card-bg);
+    border: 1px solid #334155;
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .score-box { font-size: 15px; font-weight: 600; color: #e2e8f0; }
+  .score-box span { color: var(--accent-gold); font-weight: 800; font-size: 18px; }
+
+  .toolbar-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+  .action-btn {
+    background: rgba(139, 92, 246, 0.15);
+    color: #c4b5fd;
+    border: 1px solid rgba(139, 92, 246, 0.4);
+    padding: 9px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .action-btn:hover { background: rgba(139, 92, 246, 0.3); color: #fff; }
+  .action-btn.reset {
+    background: rgba(148, 163, 184, 0.1);
+    color: var(--text-muted);
+    border-color: #475569;
+  }
+  .action-btn.reset:hover { color: #fff; border-color: #94a3b8; }
+
+  .question-card {
+    background: var(--card-bg);
+    border: 1px solid #334155;
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 26px;
+    box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.4);
+  }
+
+  .q-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 5px 12px;
+    border-radius: 8px;
+    margin-bottom: 14px;
+  }
+  .q-tag.scientist { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+  .q-tag.illustration { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+
+  .q-title { font-size: 18px; font-weight: 700; color: #fff; line-height: 1.5; margin-bottom: 18px; }
+
+  .slide-illustration {
+    background: #0f172a;
+    border: 1px solid #475569;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .slide-illustration img {
+    max-width: 100%;
+    max-height: 420px;
+    border-radius: 10px;
+    display: block;
+    margin: 0 auto 12px;
+    object-fit: contain;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  }
+  .slide-caption {
+    font-size: 13px;
+    color: #94a3b8;
+    font-style: italic;
+    border-top: 1px solid #334155;
+    padding-top: 12px;
+    margin-top: 8px;
+  }
+
+  .options-list { display: flex; flex-direction: column; gap: 10px; }
+  .option-btn {
+    background: #0f172a;
+    border: 1px solid #334155;
+    color: #e2e8f0;
+    padding: 14px 18px;
+    border-radius: 12px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.45;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .option-btn:hover:not(:disabled) {
+    border-color: var(--accent-blue);
+    background: rgba(59, 130, 246, 0.12);
+  }
+  .option-btn.correct {
+    background: rgba(16, 185, 129, 0.18);
+    border-color: var(--accent-green);
+    color: #6ee7b7;
+    font-weight: 700;
+  }
+  .option-btn.wrong {
+    background: rgba(239, 68, 68, 0.18);
+    border-color: var(--accent-red);
+    color: #fca5a5;
+  }
+
+  .explanation-box {
+    display: none;
+    margin-top: 18px;
+    padding: 18px;
+    border-radius: 12px;
+    background: rgba(16, 185, 129, 0.08);
+    border-left: 4px solid var(--accent-green);
+    font-size: 14px;
+    line-height: 1.65;
+    color: #e2e8f0;
+  }
+  .explanation-box.visible { display: block; }
+  .explanation-box strong { color: #34d399; }
+
+  footer {
+    text-align: center; padding: 24px; color: var(--text-muted);
+    font-size: 13px; border-top: 1px solid #334155;
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <a href="../index.html" class="back-link">← Назад к сайту</a>
+    <div class="logo">🎓 <span>Университет ИТМО</span> • Исторический квиз</div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <h1>История и учёные Университета ИТМО</h1>
+      <p class="subtitle">Квиз по материалам лекции: 3 вопроса о выдающихся учёных вуза и 2 вопроса по иллюстрациям из презентации с пояснениями.</p>
+    </div>
+
+    <div class="toolbar">
+      <div class="score-box">Результат: <span id="scoreCounter">0</span> из 5</div>
+      <div class="toolbar-buttons">
+        <button class="action-btn" onclick="showAllAnswers()">Показать все ответы и пояснения</button>
+        <button class="action-btn reset" onclick="resetQuiz()">Сбросить квиз</button>
+      </div>
+    </div>
+
+    <div class="question-card" data-correct="1">
+      <span class="q-tag scientist">Вопрос 1 • Персоналии учёных ИТМО</span>
+      <div class="q-title">1. Кто из учёных ЛИТМО наряду с Н. Б. Завадским получил первый диплом вуза о высшем образовании, возглавил кафедру теории оптических приборов и стал основоположником научной школы «Прикладная вычислительная оптика»?</div>
+      <div class="options-list">
+        <button class="option-btn" onclick="selectAnswer(this, 0)">Феодосий Галкин</button>
+        <button class="option-btn" onclick="selectAnswer(this, 1)">Владимир Николаевич Чуриловский</button>
+        <button class="option-btn" onclick="selectAnswer(this, 2)">Валентин Михайлович Арбузов</button>
+        <button class="option-btn" onclick="selectAnswer(this, 3)">Александр Петрович Белановский</button>
+      </div>
+      <div class="explanation-box">
+        <strong>Правильный ответ: Владимир Николаевич Чуриловский.</strong><br>
+        <strong>Пояснение:</strong> Владимир Николаевич Чуриловский сам был выпускником техникума, а с созданием вуза в 1930 году начал вести основной курс теории оптических приборов и вместе с Н. Б. Завадским получил первые дипломы ЛИТМО о квалификации инженера точной механики и оптики. Впоследствии он стал доктором технических наук, деканом оптико-механического факультета и руководил первыми масштабными проектами по теории расчёта оптических систем с несферическими поверхностями, астрономической оптике и скоростной киносъёмочной аппаратуре. Он проработал в ЛИТМО до 1979 года и был удостоен звания заслуженного деятеля науки и техники РСФСР.
+      </div>
+    </div>
+
+    <div class="question-card" data-correct="2">
+      <span class="q-tag scientist">Вопрос 2 • Персоналии учёных ИТМО</span>
+      <div class="q-title">2. Какой учёный ЛИТМО в 1941–1942 годах в осаждённом Ленинграде разработал зенитный оптический прицел ЗП-1, широко применявшийся на фронте для борьбы с вражеской авиацией?</div>
+      <div class="options-list">
+        <button class="option-btn" onclick="selectAnswer(this, 0)">Геннадий Николаевич Дульнев</button>
+        <button class="option-btn" onclick="selectAnswer(this, 1)">Сергей Иванович Вавилов</button>
+        <button class="option-btn" onclick="selectAnswer(this, 2)">Семён Тобиасович Цукерман</button>
+        <button class="option-btn" onclick="selectAnswer(this, 3)">Владимир Глебович Парфёнов</button>
+      </div>
+      <div class="explanation-box">
+        <strong>Правильный ответ: Семён Тобиасович Цукерман.</strong><br>
+        <strong>Пояснение:</strong> С первых дней Великой Отечественной войны на базе учебно-производственных мастерских и лабораторий ЛИТМО работал оптический и сборочный цех военно-ремонтной базы Ленинградского военного округа. В 1941–1942 годах сотрудник института Семён Тобиасович Цукерман разработал в блокадном Ленинграде зенитный оптический прицел ЗП-1 для борьбы с авиацией противника. За эту разработку учёный был награждён орденом «Знак Почёта» в 1942 году, орденом Красной Звезды в 1944 году и медалью «За оборону Ленинграда».
+      </div>
+    </div>
+
+    <div class="question-card" data-correct="0">
+      <span class="q-tag scientist">Вопрос 3 • Персоналии учёных ИТМО</span>
+      <div class="q-title">3. Какое научное достижение принесло выпускнику инженерно-физического факультета ЛИТМО 1954 года Юрию Николаевичу Денисюку международное признание и Ленинскую премию в 1970 году?</div>
+      <div class="options-list">
+        <button class="option-btn" onclick="selectAnswer(this, 0)">Цикл работ по голографии в трёхмерной среде (голографический метод Денисюка)</button>
+        <button class="option-btn" onclick="selectAnswer(this, 1)">Конструирование первой электронной вычислительной машины «ЛИТМО-1»</button>
+        <button class="option-btn" onclick="selectAnswer(this, 2)">Основание теплофизической научной школы моделирования тепломассообмена</button>
+        <button class="option-btn" onclick="selectAnswer(this, 3)">Запуск спутниковых станций «Радуга России» и развитие Рунета</button>
+      </div>
+      <div class="explanation-box">
+        <strong>Правильный ответ: Цикл работ по голографии в трёхмерной среде (голографический метод Денисюка).</strong><br>
+        <strong>Пояснение:</strong> Выпускник инженерно-физического факультета ЛИТМО 1954 года Юрий Николаевич Денисюк разработал знаменитый метод записи трёхмерных голограмм, за который в 1970 году получил Ленинскую премию и был избран членом-корреспондентом АН СССР. Его голографический метод открыл новые возможности для создания объёмного кино и телевидения, обработки информации и конструирования приборов радио- и гидролокации. Сегодня подлинные голограммы времён Ю. Н. Денисюка представлены в Интерактивном музее оптики ИТМО на Биржевой линии.
+      </div>
+    </div>
+
+    <div class="question-card" data-correct="3">
+      <span class="q-tag illustration">Вопрос 4 • Иллюстрация из презентации</span>
+      <div class="q-title">4. На слайде лекции, посвящённом учебной программе Механико-оптического и часового отделения при Ремесленном училище Цесаревича Николая, продемонстрированы архивные материалы воспитанника. Какой комплекс дисциплин и недельная нагрузка были обязательными для первого класса согласно лекции и этому слайду?</div>
+      
+      <div class="slide-illustration">
+        <img src="../assets/images/quizzes/itmo/school.png" alt="Слайд с отпускным билетом, значком и фото ученика Ремесленного училища">
+
+      </div>
+
+      <div class="options-list">
+        <button class="option-btn" onclick="selectAnswer(this, 0)">Исключительно слесарные и часовые работы по 36 часов в неделю без гуманитарных предметов</button>
+        <button class="option-btn" onclick="selectAnswer(this, 1)">Древние языки, классическая филология и правоведение с правом поступления в императорские университеты</button>
+        <button class="option-btn" onclick="selectAnswer(this, 2)">Только теоретическая физика и черчение (20 часов в неделю) без производственной практики</button>
+        <button class="option-btn" onclick="selectAnswer(this, 3)">48 часов в неделю (из них 24 часа в мастерских, 13 — научные предметы, 7 — графика) и широкий блок гуманитарных дисциплин</button>
+      </div>
+      <div class="explanation-box">
+        <strong>Правильный ответ: 48 часов в неделю (из них 24 часа в мастерских, 13 — научные предметы, 7 — графика) и широкий блок гуманитарных дисциплин.</strong><br>
+        <strong>Пояснение:</strong> Демонстрируя слайд с отпускным билетом, значком и фотографией ученика училища, лектор подчеркнул, что помимо точных наук воспитанники получали большой объём гуманитарных предметов: Закон Божий, историю, географию, рисование, русский язык, пение и гимнастику. В первом классе занятия шли 48 часов в неделю, причём половина всего времени (24 часа) сразу отводилась практической работе в мастерских, а с третьего класса доля производственного обучения ещё больше увеличивалась. Мастерские училища выполняли ответственные заказы Морского ведомства, Главной физической обсерватории и Главной палаты мер и весов.
+      </div>
+    </div>
+
+    <div class="question-card" data-correct="1">
+      <span class="q-tag illustration">Вопрос 5 • Иллюстрация из презентации</span>
+      <div class="q-title">5. Обратите внимание на иллюстрацию и подписи со слайда о первых послевоенных годах электроприборостроительного (с 1952 г. — радиотехнического) факультета ЛИТМО. Какие три радиолокационные станции, изображённые на слайде, служили учебной базой для первых выпусков инженеров-радиомехаников?</div>
+      
+      <div class="slide-illustration">
+        <img src="../assets/images/quizzes/itmo/radar.png" alt="Слайд с радиолокационными станциями Вюрцбург, SCR-584 и Редут-40">
+       
+      </div>
+
+      <div class="options-list">
+        <button class="option-btn" onclick="selectAnswer(this, 0)">Отечественные станции «МОС-2», «Кобальт» и «П-8», поступившие в 1945 году</button>
+        <button class="option-btn" onclick="selectAnswer(this, 1)">Трофейная немецкая РЛС «Вюрцбург», полученная по ленд-лизу американская SCR-584 (в центре слайда) и первая советская станция «Пегматит» (подписанная как «Редут-40»)</button>
+        <button class="option-btn" onclick="selectAnswer(this, 2)">Спутниковые станции «Радуга России», «Вега» и «Фобос»</button>
+        <button class="option-btn" onclick="selectAnswer(this, 3)">Электронно-вычислительные комплексы БЭСМ, ЭНИАК и «ЛИТМО-1»</button>
+      </div>
+      <div class="explanation-box">
+        <strong>Правильный ответ: Трофейная немецкая РЛС «Вюрцбург», полученная по ленд-лизу американская SCR-584 (в центре слайда) и первая советская станция «Пегматит» (подписанная как «Редут-40»).</strong><br>
+        <strong>Пояснение:</strong> В первые годы после открытия факультета в 1945 году ощущалась острая нехватка учебной литературы и лабораторной базы, поэтому первые советские инженеры-радиомеханики изучали аппаратуру на трёх образцах со слайда. Это были бездействующая немецкая станция «Вюрцбург» (снятая с трофейного бронепоезда), американская станция SCR-584, полученная по ленд-лизу (расположена в центре слайда), и первая советская РЛС типа «Пегматит», обозначенная в подписи на слайде как «Редут-40». Действующие отечественные станции («МОС-2», «Кобальт», «П-8») появились в лабораториях ЛИТМО лишь в 1950-е годы.
+      </div>
+    </div>
+
+  </main>
+
+
+  <script>
+    let score = 0;
+
+    function selectAnswer(button, selectedIndex) {
+      const card = button.closest('.question-card');
+      if (card.classList.contains('answered')) return;
+      card.classList.add('answered');
+
+      const correctIndex = parseInt(card.getAttribute('data-correct'), 10);
+      const buttons = card.querySelectorAll('.option-btn');
+      const explanation = card.querySelector('.explanation-box');
+
+      buttons.forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === correctIndex) {
+          btn.classList.add('correct');
+        } else if (idx === selectedIndex) {
+          btn.classList.add('wrong');
+        }
+      });
+
+      if (selectedIndex === correctIndex) {
+        score++;
+        document.getElementById('scoreCounter').textContent = score;
+      }
+
+      explanation.classList.add('visible');
+    }
+
+    function showAllAnswers() {
+      const cards = document.querySelectorAll('.question-card');
+      score = 5;
+      document.getElementById('scoreCounter').textContent = score;
+
+      cards.forEach(card => {
+        card.classList.add('answered');
+        const correctIndex = parseInt(card.getAttribute('data-correct'), 10);
+        const buttons = card.querySelectorAll('.option-btn');
+        buttons.forEach((btn, idx) => {
+          btn.disabled = true;
+          btn.classList.remove('wrong');
+          if (idx === correctIndex) {
+            btn.classList.add('correct');
+          }
+        });
+        card.querySelector('.explanation-box').classList.add('visible');
+      });
+    }
+
+    function resetQuiz() {
+      const cards = document.querySelectorAll('.question-card');
+      score = 0;
+      document.getElementById('scoreCounter').textContent = score;
+
+      cards.forEach(card => {
+        card.classList.remove('answered');
+        const buttons = card.querySelectorAll('.option-btn');
+        buttons.forEach(btn => {
+          btn.disabled = false;
+          btn.classList.remove('correct', 'wrong');
+        });
+        card.querySelector('.explanation-box').classList.remove('visible');
+      });
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+! L3-коммутатор Cisco 3560. Порты и номера устройств сверить с lab6.pkt.
+enable
+configure terminal
+hostname LAB6-CORE
+ip routing
+
+vlan 10
+ name OFFICE
+vlan 20
+ name REMOTE-OFFICE
+vlan 30
+ name CAMERAS
+vlan 40
+ name SERVERS
+exit
+
+interface vlan 10
+ ip address 10.10.0.1 255.255.255.0
+ ip helper-address 10.40.0.1
+ no shutdown
+interface vlan 20
+ ip address 10.20.0.1 255.255.255.0
+ ip helper-address 10.40.0.1
+ no shutdown
+interface vlan 30
+ ip address 10.30.0.1 255.255.255.0
+ ip helper-address 10.40.0.1
+ no shutdown
+interface vlan 40
+ ip address 10.40.0.254 255.255.255.0
+ no shutdown
+
+! Магистраль к коммутатору доступа.
+interface gigabitEthernet 0/1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30,40
+ no shutdown
+end
+copy running-config startup-config
+
+! На 2960 повторить VLAN и назначить access-порты по плану помещений.
+! interface range fastEthernet 0/1-18
+!  switchport mode access
+!  switchport access vlan 10
+! interface fastEthernet 0/24
+!  switchport mode trunk
+!  switchport trunk allowed vlan 10,20,30,40
